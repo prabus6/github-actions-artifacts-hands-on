@@ -12,9 +12,21 @@ jobs:
 
     - name: Create a text file
       run: echo "Hello, world!" > hello.txt
-
-    - name: Archive text file
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: hello-artifact
         path: hello.txt
+        archive: false
+
+  download:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download text file
+        uses: actions/download-artifact@v8
+        with:
+          name: hello-artifact
+          path: ./artifacts
+      - name: Display content of the text file
+        run: cat ./artifacts/hello.txt
+
